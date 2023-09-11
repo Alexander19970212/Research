@@ -891,8 +891,9 @@ class BoxCAD:
 
     if type_rendiring == "3D":
       # create a 3D view figure
-      fig = plt.figure(figsize=(10, 10))
-      ax = Axes3D(fig)
+      fig = plt.figure(figsize=(6, 6))
+      # ax = Axes3D(fig)
+      ax = fig.add_subplot(projection='3d')
 
       # define the space limits by creating points on the corner of space
       pos_size = self.space_size/2
@@ -905,25 +906,29 @@ class BoxCAD:
       # add faces of current box as a polyfones
       if self.first_step_done:
         verts = poligones_verts(self.current_box)
+        verts = torch.tensor(verts).cpu()
         ax.add_collection3d(Poly3DCollection(verts, 
-            facecolors='forestgreen', linewidths=1, edgecolors='g', alpha=.25))
+            facecolors='yellow', linewidths=1, edgecolors='g', alpha=.25))
 
       # add faces of previous boxes
       if self.previous_boxes != None:
         for box in self.previous_boxes:
           verts = poligones_verts(box)
+          verts = torch.tensor(verts).cpu()
           ax.add_collection3d(Poly3DCollection(verts, 
-              facecolors='forestgreen', linewidths=1, edgecolors='g', alpha=.25))
+              facecolors='gold', linewidths=1, edgecolors='g', alpha=.25))
       
       # add faces of task-boxes
       for box in self.task_boxes:
         verts = poligones_verts(box)
+        verts = torch.tensor(verts).cpu()
         ax.add_collection3d(Poly3DCollection(verts, 
-            facecolors='blue', linewidths=1, edgecolors='b', alpha=.25))
+            facecolors='green', linewidths=1, edgecolors='b', alpha=.25))
         
       # add faces of constraint-boxes
       for box in self.constraints_boxes:
         verts = poligones_verts(box)
+        verts = torch.tensor(verts).cpu()
         ax.add_collection3d(Poly3DCollection(verts, 
             facecolors='red', linewidths=1, edgecolors='r', alpha=.25)) 
         
